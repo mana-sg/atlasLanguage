@@ -27,6 +27,7 @@ Token* create_node(char *type, int value){
     new_node->value = value;
     return new_node;
 }
+
 ///////////////////////////////////////////
 //LEXER
 //////////////////////////////////////////
