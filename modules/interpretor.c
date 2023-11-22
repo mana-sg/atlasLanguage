@@ -61,12 +61,12 @@ double evaluatePostfix(char* expression) {
                         pushEvaluate(&stack, operand1 / operand2);
                     } else {
                         printf("Error: Division by zero\n");
-                        exit(EXIT_FAILURE);
+                        return 1.22323425442431;
                     }
                     break;
                 default:
                     printf("Error: Invalid operator\n");
-                    exit(EXIT_FAILURE);
+                    return 1.22323425442431;
             }
         }
     }

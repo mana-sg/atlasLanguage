@@ -54,7 +54,7 @@ Token* getNextToken(string input, int *index) {
         case ')': return create_node("RPAREN", 0);
         default:
             printf("Error: Invalid character '%c'\n", op);
-            exit(0);
+            return create_node("EXIT", 0);
     }
 }
 
@@ -71,6 +71,9 @@ Tokens* returnTokens(string input){
     int index = 0;
     tokens_list->next = NULL;
     tokens_list->token = getNextToken(input, &index);
+    if(strcmp(tokens_list->token->type, "EXIT") == 0){
+        return NULL;
+    }
     while(input[index] != '\0'){
         token = getNextToken(input, &index);
         addToken(tokens_list, token);
