@@ -1,20 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-
-typedef char string[1000];
-
-typedef struct token{
-    char* type;
-    int value;
-} Token;
-
-typedef struct tokens{
-    Token *token;
-    struct tokens *next;
-} Tokens;
-
+#include "lexer.h"
 
 void take_input(string command){
     printf("<<Atlas>> ");
@@ -28,9 +15,6 @@ Token* create_node(char *type, int value){
     return new_node;
 }
 
-///////////////////////////////////////////
-//LEXER
-//////////////////////////////////////////
 void addToken(Tokens* tokens, Token *token) {
     Tokens *new_node = (Tokens*)malloc(sizeof(Tokens*));
     new_node->token = token;
@@ -56,7 +40,7 @@ Token* getNextToken(string input, int *index) {
             value = value * 10 + (input[*index] - '0');
             (*index)++;
         }
-        return create_node("INTEGER", value);
+        return create_node("NUMBER", value);
     }
 
     char op = input[*index];
@@ -64,43 +48,32 @@ Token* getNextToken(string input, int *index) {
     switch (op) {
         case '+': return create_node("PLUS", 0);
         case '-': return create_node("MINUS", 0);
-        case '*': return create_node("MULTIPLY", 0);
+        case '*': return create_node("MUL", 0);
         case '/': return create_node("DIVIDE", 0);
-        case '(': return create_node("LPARENTHESIS", 0);
-        case ')': return create_node("RPARENTHESIS", 0);
+        case '(': return create_node("LPAREN", 0);
+        case ')': return create_node("RPAREN", 0);
         default:
             printf("Error: Invalid character '%c'\n", op);
             exit(0);
     }
 }
-///////////////////////////////////////////
-//LEXER
-//////////////////////////////////////////
 
-void display(Tokens* tokens){
+void displayTokens(Tokens* tokens){
     while(tokens){
         printf("%s ", tokens->token->type);
         tokens = tokens->next;
     }
 }
 
-int main() {
-    while(1){
-        string input;
-        int index = 0;
-        take_input(input);
-        Token *token;
-        Tokens *tokens = (Tokens*)malloc(sizeof(Tokens*));
-        tokens->next = NULL;
-        tokens->token = getNextToken(input, &index);
-        while(input[index] != '\0'){
-            token = getNextToken(input, &index);
-            addToken(tokens, token);
+Tokens* returnTokens(string input){
+    Tokens* tokens_list = (Tokens*)malloc(sizeof(Tokens*));
+    Token* token = (Token*)malloc(sizeof(Token*));;
+    int index = 0;
+    tokens_list->next = NULL;
+    tokens_list->token = getNextToken(input, &index);
+    while(input[index] != '\0'){
+        token = getNextToken(input, &index);
+        addToken(tokens_list, token);
         }
-        display(tokens);
-        printf("\n");
-
-    }
-
-    return 0;
+    return tokens_list;
 }
