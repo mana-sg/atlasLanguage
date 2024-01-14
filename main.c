@@ -1,3 +1,4 @@
+#include<string.h>
 #include<stdio.h>
 #include"modules/parser.h"
 #include"modules/lexer.h"
@@ -8,6 +9,9 @@ int main(){
     while(1){
         string input;
         take_input(input);
+        if(strcmp(input, "exit") == 0){
+            break;
+        }
         Tokens* tokens = returnTokens(input);
         if(!tokens){
             continue;
