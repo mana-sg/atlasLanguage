@@ -5,6 +5,8 @@
 #include"modules/intopost.h"
 #include"modules/interpretor.h"
 
+#define INVALID_RESULT 1.22323425442431
+
 int main(){
     while(1){
         string input;
@@ -16,26 +18,18 @@ int main(){
         if(!tokens){
             continue;
         }
-        printf("The tokens list are: \n [ ");
-        displayTokens(tokens);
-        printf("]\n\n");
-        printf("-----------------------------------------------------------------------------------------------\n");
-        if(isValidExpression(input))
-            printf("The expression is mathematically correct\n");
-        else{
+        if(!isValidExpression(input)) 
             printf("The expression is mathematically wrong\n");
-            continue;
-        }
-        printf("-----------------------------------------------------------------------------------------------\n");
+        
         Tokens* postfix = infixToPostfix(tokens);
         char* postfixExpression = returnPostfixExpression(postfix);
-        printf("Postfix expression: %s\n", postfixExpression);
         double result = evaluatePostfix(postfixExpression);
-        printf("-----------------------------------------------------------------------------------------------\n");
-        if(result == 1.22323425442431){
+        
+        if(result == INVALID_RESULT){
             continue;
         }
-        printf("Result: %.2f\n", result);
+      
+        printf("%.2f\n", result);
     }
     return 0;
 }

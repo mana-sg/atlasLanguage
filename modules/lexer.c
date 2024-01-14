@@ -58,13 +58,6 @@ Token* getNextToken(string input, int *index) {
     }
 }
 
-void displayTokens(Tokens* tokens){
-    while(tokens){
-        printf("%s ", tokens->token->type);
-        tokens = tokens->next;
-    }
-}
-
 Tokens* returnTokens(string input){
     Tokens* tokens_list = (Tokens*)malloc(sizeof(Tokens*));
     Token* token = (Token*)malloc(sizeof(Token*));;
